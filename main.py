@@ -73,22 +73,32 @@ async def run_debugger(url_to_debug, config_path):
         except Exception:
             print("Wait for 'load' state timed out, proceeding anyway...")
         
-        # 3. Check for 'Volver a extraer' (Scrape Again)
+        # 3. Check for 'Volver a extraer' (Scrape Again) or 'Recuperar nueva información' (Fetch New Info)
         try:
-            # We look for the button that says "Volver a extraer"
+            # Check for "Volver a extraer"
             scrape_again_button = page.get_by_role("button", name="Volver a extraer", exact=True)
+            # Check for "Recuperar nueva información" (Alternative for new URLs)
+            fetch_new_button = page.get_by_role("button", name="Recuperar nueva información", exact=True)
+            
+            target_button = None
             if await scrape_again_button.is_visible(timeout=5000):
-                print("Found 'Volver a extraer'. Clicking it to ensure fresh data...")
-                await scrape_again_button.click()
+                target_button = scrape_again_button
+                print("Found 'Volver a extraer'. Clicking it...")
+            elif await fetch_new_button.is_visible(timeout=2000):
+                target_button = fetch_new_button
+                print("Found 'Recuperar nueva información'. Clicking it...")
+            
+            if target_button:
+                await target_button.click()
                 try:
                     await page.wait_for_load_state("load", timeout=10000)
                 except Exception:
                     pass
                 print("Scrape refreshed successfully.")
             else:
-                print("'Volver a extraer' button not visible.")
-        except Exception:
-            print("Note: 'Volver a extraer' button not found.")
+                print("No refresh button visible.")
+        except Exception as e:
+            print(f"Note: Error checking for refresh buttons: {e}")
             
         # Final Verification: Extract results
         results = {}
