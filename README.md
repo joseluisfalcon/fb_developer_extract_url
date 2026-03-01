@@ -7,42 +7,72 @@ A Python tool that automates the Facebook Sharing Debugger to extract preview in
 - Python 3.8+
 - [Playwright](https://playwright.dev/python/docs/intro)
 
-## Installation
+## Quick Start (Installation & Setup)
 
-1. Clone the repository.
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Install Playwright browsers:
-   ```bash
-   playwright install chromium
-   ```
+To set up the project automatically, run the installation script for your environment:
+
+### Windows
+```batch
+install.bat
+```
+
+### Linux / Git Bash
+```bash
+bash ./install.sh
+```
+
+These scripts will:
+1. Create a virtual environment (`.venv`).
+2. Install all dependencies from `requirements.txt`.
+3. Install the required Playwright browsers (chromium).
 
 ## Configuration
 
-The script requires access to Facebook. copy the sample configuration file and fill in your credentials or cookies:
+The script requires Facebook credentials or cookies. Copy the sample configuration file and fill in your details:
 
 ```bash
 cp config_facebook_developer.json.sample config_facebook_developer.json
 ```
 
-Edit `config_facebook_developer.json` with your:
-- `facebook_user`: Your Facebook email.
+Edit `config_facebook_developer.json` with:
+- `facebook_user`: Your Facebook username/email.
 - `facebook_password`: Your Facebook password.
-- `cookies`: A list of cookie objects (can be exported using browser extensions).
+- `cookies`: A list of cookie objects (recommended for avoiding 2FA issues).
 
 ## Usage
 
-Run the script by passing the URL you want to debug:
+You can run the tool using the provided simplified execution scripts:
 
-```bash
-python main.py https://www.example.com
+### Windows
+```batch
+run.bat https://www.example.com
 ```
 
-Options:
-- `--config`: Path to a custom config file (default: `config_facebook_developer.json`).
+### Linux / Git Bash
+```bash
+./run.sh https://www.example.com
+```
 
-## Security
+### Direct Execution
+If you have the virtual environment active:
+```bash
+python main.py <URL>
+```
 
-Sensitive files like `config_facebook_developer.json` and debug screenshots are excluded from the repository via `.gitignore`. Always use the `.sample` file as a template for sharing configuration structures.
+## Testing
+
+To run the unit and integration tests:
+
+```bash
+./test.sh
+```
+
+## Global Command (Windows)
+
+You can also use the `fb_developer_extractor` command from anywhere if you have added `c:\scripts\bin` to your system PATH.
+
+## Security & Local Configuration
+
+- **Sensitive Data**: Your `config_facebook_developer.json` and screenshots are kept safe and are not tracked by Git.
+- **Local Rules**: This project uses `.git/info/exclude` for privacy. No public `.gitignore` is included to maintain a clean project structure.
+- **Context**: More detailed project context can be found in `CONTEXT.md` (which is also excluded from Git).
