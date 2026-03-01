@@ -145,8 +145,9 @@ async def run_debugger(url_to_debug, config_path):
 
         # Screenshot for the user to see the result
         screenshot_path = "facebook_debug_result.png"
+        abs_screenshot_path = os.path.abspath(screenshot_path)
         await page.screenshot(path=screenshot_path, full_page=True)
-        print(f"Automation complete. Screenshot saved as {screenshot_path}")
+        print(f"Automation complete. Screenshot saved as {abs_screenshot_path}")
         
         await browser.close()
 
